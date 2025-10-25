@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Message from './Message';
 import { Send } from 'lucide-react';
+import { ChatWindowProps } from '../types';
 import './ChatWindow.css';
 
-const ChatWindow = ({ chat, onSendMessage }) => {
-  const [messageText, setMessageText] = useState('');
-  const messagesEndRef = useRef(null);
+const ChatWindow: React.FC<ChatWindowProps> = ({ chat, onSendMessage }) => {
+  const [messageText, setMessageText] = useState<string>('');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
+  const scrollToBottom = (): void => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
@@ -15,7 +16,7 @@ const ChatWindow = ({ chat, onSendMessage }) => {
     scrollToBottom();
   }, [chat.messages]);
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     if (messageText.trim()) {
       onSendMessage(chat.id, messageText.trim());
@@ -23,10 +24,10 @@ const ChatWindow = ({ chat, onSendMessage }) => {
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage(e);
+      handleSendMessage(e as any);
     }
   };
 
@@ -56,11 +57,11 @@ const ChatWindow = ({ chat, onSendMessage }) => {
         <div className="message-input-container">
           <textarea
             value={messageText}
-            onChange={(e) => setMessageText(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setMessageText(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Type a message..."
             className="message-input"
-            rows="1"
+            rows={1}
           />
           <button 
             type="submit" 

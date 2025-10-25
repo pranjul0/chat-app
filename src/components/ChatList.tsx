@@ -1,14 +1,15 @@
 import React from 'react';
 import { MessageCircle, Trash2 } from 'lucide-react';
+import { ChatListProps } from '../types';
 import './ChatList.css';
 
-const ChatList = ({ chats, activeChatId, onChatSelect, onDeleteChat }) => {
-  const formatTime = (timestamp) => {
+const ChatList: React.FC<ChatListProps> = ({ chats, activeChatId, onChatSelect, onDeleteChat }) => {
+  const formatTime = (timestamp: string): string => {
     const date = new Date(timestamp);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
-  const getLastMessagePreview = (chat) => {
+  const getLastMessagePreview = (chat: { messages: Array<{ text: string }> }): string => {
     if (chat.messages.length === 0) {
       return 'No messages yet';
     }
@@ -45,7 +46,7 @@ const ChatList = ({ chats, activeChatId, onChatSelect, onDeleteChat }) => {
             
             <button 
               className="delete-chat-btn"
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent) => {
                 e.stopPropagation();
                 onDeleteChat(chat.id);
               }}

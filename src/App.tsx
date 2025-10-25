@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ChatList from './components/ChatList';
 import ChatWindow from './components/ChatWindow';
+import { Chat, Message } from './types';
 import './App.css';
 
-function App() {
-  const [chats, setChats] = useState([]);
-  const [activeChatId, setActiveChatId] = useState(null);
-  const [nextChatId, setNextChatId] = useState(1);
+function App(): JSX.Element {
+  const [chats, setChats] = useState<Chat[]>([]);
+  const [activeChatId, setActiveChatId] = useState<number | null>(null);
+  const [nextChatId, setNextChatId] = useState<number>(1);
 
   // Initialize with a default chat
   useEffect(() => {
-    const defaultChat = {
+    const defaultChat: Chat = {
       id: 1,
       name: 'My Chat',
       messages: [],
@@ -21,8 +22,8 @@ function App() {
     setNextChatId(2);
   }, []);
 
-  const createNewChat = () => {
-    const newChat = {
+  const createNewChat = (): void => {
+    const newChat: Chat = {
       id: nextChatId,
       name: `Chat ${nextChatId}`,
       messages: [],
@@ -33,7 +34,7 @@ function App() {
     setNextChatId(prev => prev + 1);
   };
 
-  const deleteChat = (chatId) => {
+  const deleteChat = (chatId: number): void => {
     setChats(prev => prev.filter(chat => chat.id !== chatId));
     if (activeChatId === chatId) {
       const remainingChats = chats.filter(chat => chat.id !== chatId);
@@ -41,8 +42,8 @@ function App() {
     }
   };
 
-  const sendMessage = (chatId, messageText) => {
-    const newMessage = {
+  const sendMessage = (chatId: number, messageText: string): void => {
+    const newMessage: Message = {
       id: Date.now(),
       text: messageText,
       userId: 'user',

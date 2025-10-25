@@ -1,8 +1,9 @@
 import React from 'react';
+import { MessageProps } from '../types';
 import './Message.css';
 
-const Message = ({ message }) => {
-  const formatTimestamp = (timestamp) => {
+const Message: React.FC<MessageProps> = ({ message }) => {
+  const formatTimestamp = (timestamp: string): string => {
     const date = new Date(timestamp);
     const now = new Date();
     const isToday = date.toDateString() === now.toDateString();
@@ -15,7 +16,7 @@ const Message = ({ message }) => {
     }
   };
 
-  const getUserDisplayName = (userId) => {
+  const getUserDisplayName = (userId: string): string => {
     return userId === 'user' ? 'You' : userId;
   };
 
